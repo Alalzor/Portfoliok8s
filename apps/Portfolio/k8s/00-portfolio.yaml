@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: ghcr.io/Alalzor/portfolio:latest  # Cambia TU_USUARIO por tu usuario de GitHub
+        image: ghcr.io/alalzor/portfolio:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
