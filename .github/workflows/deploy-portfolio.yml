@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # Cambiado de ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -62,9 +62,8 @@ jobs:
 
       - name: Configure kubectl
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
+          # Ya tenemos acceso directo al cluster, no necesitamos configurar kubeconfig
+          kubectl version --client
 
       - name: Deploy to Kubernetes
         run: |
