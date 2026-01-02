@@ -32,10 +32,14 @@ jobs:
       - name: Build container image
         run: |
           cd apps/Portfolio
-          podman build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
+          podman build \
+            -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+            .
           
       - name: Push container image
         run: |
+          podman push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           podman push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Deploy to Kubernetes
@@ -43,9 +47,9 @@ jobs:
           # Aplicar manifiestos
           kubectl apply -f apps/Portfolio/k8s/00-portfolio.yaml
           
-          # Actualizar imagen del deployment
+          # Actualizar imagen del deployment con SHA único
           kubectl set image deployment/portfolio \
-            nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+            nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -n portfolio
           
           # Esperar a que el rollout termine
