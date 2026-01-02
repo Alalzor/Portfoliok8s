@@ -1,0 +1,11 @@
+# Self-signed ClusterIssuer for development
+# Generates certificates automatically for Ingress resources
+# For production, replace with Let's Encrypt
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}

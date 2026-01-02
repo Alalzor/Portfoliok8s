@@ -1,0 +1,93 @@
+---
+const projects = [
+  {
+    title: "LAMP Stack Complete",
+    description: "Complete implementation of LAMP stack (Linux, Apache, MySQL, PHP) with functional web applications. Includes server configuration, databases and production deployment.",
+    tech: ["Linux", "Apache", "MySQL", "PHP", "Docker"],
+    github: "https://github.com/Alalzor/LAMP-Stack-Completo",
+    demo: "https://github.com/Alalzor/LAMP-Stack-Completo"
+  },
+  {
+    title: "Systems Administration",
+    description: "Collection of scripts and tools for automating system administration tasks. Includes user management, backups, basic monitoring and Bash scripting.",
+    tech: ["Bash", "Shell", "Linux", "Scripting", "Git"],
+    github: "https://github.com/Alalzor/Administracion-de-Sistemas",
+    demo: "https://github.com/Alalzor/Administracion-de-Sistemas"
+  },
+  {
+    title: "Information Security",
+    description: "Educational module on security best practices. Covers system hardening, access management, vulnerability analysis and security protocols.",
+    tech: ["Linux Security", "Cryptography", "Access Control", "Network Security"],
+    github: "https://github.com/Alalzor/Seguridad-Informatica",
+    demo: "https://github.com/Alalzor/Seguridad-Informatica"
+  },
+  {
+    title: "Web Application Deployment",
+    description: "Project on deployment and configuration of web applications. Includes virtualization, containers and different deployment strategies.",
+    tech: ["PHP", "Docker", "Docker Compose", "Linux", "Apache"],
+    github: "https://github.com/Alalzor/Implantacion-de-Aplicaciones-Web",
+    demo: "https://github.com/Alalzor/Implantacion-de-Aplicaciones-Web"
+  },
+  {
+    title: "Database Administration",
+    description: "Projects on database design, implementation and administration. SQL, normalization, optimized queries and user management.",
+    tech: ["SQL", "MySQL", "Database Design", "Queries"],
+    github: "https://github.com/Alalzor/Databases",
+    demo: "https://github.com/Alalzor/Databases"
+  },
+  {
+    title: "Git & Version Control",
+    description: "Learning Git as a version control tool. Workflows, branching, merging and repository collaboration.",
+    tech: ["Git", "GitHub", "Version Control", "Collaboration"],
+    github: "https://github.com/Alalzor/rainbow-remote",
+    demo: "https://github.com/Alalzor/rainbow-remote"
+  }
+];
+---
+
+<section id="projects" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 fade-in">Featured Projects</h2>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project, index) => (
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 scale-in" style={`transition-delay: ${index * 100}ms`}>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900">{project.title}</h3>
+            </div>
+            <p class="text-gray-700 mb-4">{project.description}</p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.tech.map((tech) => (
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            
+            <div class="flex gap-4">
+              <a href={project.github} class="text-primary hover:text-secondary font-medium flex items-center gap-1 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+              <a href={project.demo} class="text-primary hover:text-secondary font-medium flex items-center gap-1 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Demo
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

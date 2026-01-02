@@ -1,0 +1,11 @@
+# Configuración del cluster Calico
+typha:
+  enabled: true
+
+calicoNetwork:
+  ipPools:
+    - blockSize: 26
+      cidr: 10.250.0.0/16
+      encapsulation: VXLAN
+      natOutgoing: Enabled
+      nodeSelector: all()

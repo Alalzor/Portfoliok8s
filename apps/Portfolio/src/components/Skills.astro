@@ -1,0 +1,108 @@
+---
+const skillCategories = [
+  {
+    title: "Containerization & Orchestration",
+    skills: [
+      { name: "Docker", level: 50 },
+      { name: "Docker Compose", level: 50 },
+      { name: "Kubernetes", level: 25 },
+      { name: "Helm", level: 20 }
+    ]
+  },
+  {
+    title: "CI/CD & Automation",
+    skills: [
+      { name: "GitLab CI/CD", level: 30 },
+      { name: "GitHub Actions", level: 25 },
+      { name: "Jenkins", level: 20 },
+      { name: "ArgoCD", level: 20 }
+    ]
+  },
+  {
+    title: "Infrastructure as Code",
+    skills: [
+      { name: "Terraform", level: 25 },
+      { name: "Ansible", level: 30 },
+      { name: "Vagrant", level: 25 }
+    ]
+  },
+  {
+    title: "Cloud & Monitoring",
+    skills: [
+      { name: "AWS", level: 25 },
+      { name: "Azure", level: 20 },
+      { name: "Prometheus", level: 25 },
+      { name: "Grafana", level: 25 },
+      { name: "ELK Stack", level: 20 }
+    ]
+  },
+  {
+    title: "Systems & Scripting",
+    skills: [
+      { name: "Linux (Ubuntu/RHEL)", level: 50 },
+      { name: "Bash", level: 50 },
+      { name: "Python", level: 35 },
+      { name: "Git", level: 50 }
+    ]
+  },
+  {
+    title: "Networks & Databases",
+    skills: [
+      { name: "Networks", level: 60 },
+      { name: "Databases", level: 45 },
+      { name: "Markup Languages (HTML/XML)", level: 50 }
+    ]
+  }
+];
+---
+
+<section id="skills" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 fade-in">Technical Skills</h2>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {skillCategories.map((category, index) => (
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 scale-in" style={`transition-delay: ${index * 100}ms`}>
+          <h3 class="text-xl font-semibold mb-4 text-primary">{category.title}</h3>
+          <div class="space-y-4">
+            {category.skills.map((skill) => (
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-700">{skill.name}</span>
+                  <span class="text-sm text-gray-500">{skill.level}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    class="bg-gradient-to-r from-blue-600 to-blue-400 h-2 rounded-full transition-all duration-1000 skill-bar" 
+                    style={`width: 0%`}
+                    data-width={skill.level}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Animate skill bars when they come into view
+  function animateSkillBars() {
+    const skillBars = document.querySelectorAll('.skill-bar');
+    skillBars.forEach(bar => {
+      const rect = bar.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight - 100;
+      if (isVisible && bar.style.width === '0%') {
+        const targetWidth = bar.getAttribute('data-width');
+        setTimeout(() => {
+          bar.style.width = targetWidth + '%';
+        }, 100);
+      }
+    });
+  }
+
+  window.addEventListener('scroll', animateSkillBars);
+  window.addEventListener('load', animateSkillBars);
+</script>

@@ -1,0 +1,71 @@
+---
+---
+
+<section class="py-16 bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="fade-in">
+        <div class="text-5xl font-bold text-blue-400 mb-2 counter" data-target="2">0</div>
+        <div class="text-gray-300">Years of Training</div>
+      </div>
+      
+      <div class="fade-in">
+        <div class="text-5xl font-bold text-blue-400 mb-2 counter" data-target="14">0</div>
+        <div class="text-gray-300">Academic Projects</div>
+      </div>
+      
+      <div class="fade-in">
+        <div class="text-5xl font-bold text-blue-400 mb-2 counter" data-target="15">0</div>
+        <div class="text-gray-300">Mastered Technologies</div>
+      </div>
+      
+      <div class="fade-in">
+        <div class="text-5xl font-bold text-blue-400 mb-2 counter" data-target="100">0</div>
+        <div class="text-gray-300">% Dedication</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target') || '0');
+      const duration = 2000;
+      const increment = target / (duration / 16);
+      let current = 0;
+      
+      const updateCounter = () => {
+        current += increment;
+        if (current < target) {
+          counter.textContent = Math.floor(current).toString();
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter.textContent = target.toString() + (target === 100 ? '' : '+');
+        }
+      };
+      
+      // Check if element is in viewport
+      const rect = counter.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight;
+      
+      if (isVisible) {
+        updateCounter();
+      } else {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              updateCounter();
+              observer.disconnect();
+            }
+          });
+        });
+        observer.observe(counter);
+      }
+    });
+  }
+  
+  window.addEventListener('load', animateCounters);
+</script>

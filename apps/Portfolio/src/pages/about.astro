@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import About from '../components/About.astro';
+---
+
+<Layout title="About Me | DevOps Portfolio">
+  <div class="pt-20">
+    <About />
+    
+    <!-- Extended About Section -->
+    <section class="py-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12">
+          <div class="fade-in">
+            <h3 class="text-3xl font-bold mb-6 text-gray-900">My Journey</h3>
+            <div class="space-y-4 text-gray-700">
+              <p>
+                My journey in the IT world began with a deep curiosity to understand 
+                how systems work. During my ASIR training, I discovered my 
+                true passion: automation and systems administration.
+              </p>
+              <p>
+                I specialized in container and orchestration technologies, starting 
+                with Docker and learning Kubernetes fundamentals. My goal has always been 
+                to eliminate repetitive tasks and create efficient systems.
+              </p>
+              <p>
+                Currently, my focus is on learning DevOps tools, implementing 
+                infrastructure best practices and improving my skills in 
+                automation and cloud technologies.
+              </p>
+            </div>
+          </div>
+          
+          <div class="fade-in">
+            <h3 class="text-3xl font-bold mb-6 text-gray-900">Values & Philosophy</h3>
+            <div class="space-y-4">
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <h4 class="font-semibold text-primary mb-2">🚀 Automation first</h4>
+                <p class="text-gray-700 text-sm">If you do it more than twice, automate it.</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <h4 class="font-semibold text-primary mb-2">📊 Constant measurement</h4>
+                <p class="text-gray-700 text-sm">You can't improve what you don't measure.</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <h4 class="font-semibold text-primary mb-2">🔄 Continuous improvement</h4>
+                <p class="text-gray-700 text-sm">There's always a more efficient way to do it.</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                <h4 class="font-semibold text-primary mb-2">🤝 Collaboration</h4>
+                <p class="text-gray-700 text-sm">DevOps is culture, not just tools.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

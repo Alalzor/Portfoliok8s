@@ -1,0 +1,14 @@
+# MetalLB L2 Advertisement
+# Configures Layer 2 (ARP) announcement for LoadBalancer IPs
+# This makes the IPs accessible from your physical network (10.0.1.0/24)
+
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advert
+  namespace: metallb-system
+  labels:
+    app: metallb
+spec:
+  ipAddressPools:
+  - main-pool

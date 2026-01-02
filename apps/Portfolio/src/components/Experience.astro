@@ -1,0 +1,67 @@
+---
+const experiences = [
+  {
+    title: "Laboratory Technician",
+    company: "CMT - UPV Testing Center",
+    period: "2022 - Present",
+    description: [
+      "Maintenance of computer equipment and laboratory systems",
+      "Communication between testing equipment and technical coordination",
+      "Software for experimentation and data acquisition systems",
+      "Technical support in laboratory operations"
+    ]
+  },
+  {
+    title: "ASIR Higher Technician Training",
+    company: "Higher Education Institute",
+    period: "2023 - 2025",
+    description: [
+      "Operating system implementation and OS administration",
+      "Planning and network administration (60% competency)",
+      "SQL/NoSQL database management (45% competency)",
+      "Internet and network services (DNS, DHCP, FTP, SSH, HTTP)",
+      "Web application implementation (LAMP Stack, PHP)",
+      "Information security and high availability",
+      "Professional English and digital competencies",
+      "Intermodular Project: Network systems infrastructure"
+    ]
+  },
+  {
+    title: "Personal Projects & Internship",
+    company: "Continuous Education",
+    period: "2025",
+    description: [
+      "Development of practical projects in systems administration",
+      "Implementation of complete LAMP Stack solutions",
+      "Automation with Bash and Python",
+      "Version control with Git and project management",
+      "Focus on DevOps and automation tools"
+    ]
+  }
+];
+---
+
+<section id="experiencia" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 fade-in">Experience</h2>
+    
+    <div class="space-y-8">
+      {experiences.map((exp, index) => (
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 fade-in" style={`transition-delay: ${index * 150}ms`}>
+          <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+            <div>
+              <h3 class="text-2xl font-semibold text-gray-900">{exp.title}</h3>
+              <p class="text-lg text-primary font-medium">{exp.company}</p>
+            </div>
+            <span class="text-sm text-gray-600 md:text-right mt-2 md:mt-0 bg-blue-100 px-3 py-1 rounded-full">{exp.period}</span>
+          </div>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            {exp.description.map((item) => (
+              <li class="hover:text-blue-600 transition-colors">{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
