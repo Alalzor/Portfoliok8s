@@ -35,10 +35,12 @@ El portfolio se despliega automáticamente cuando:
 
 ### Pipeline:
 1. Build del proyecto Astro (`npm run build`)
-2. Construcción de imagen Docker multi-stage
-3. Push a GitHub Container Registry (ghcr.io)
+2. Construcción de imagen con Podman (multi-stage)
+3. Push a GitHub Container Registry con versionado SHA
 4. Deploy a Kubernetes con rolling update
 5. Verificación del despliegue
+
+Cada commit genera una imagen única con tag basado en el SHA del commit, evitando problemas con `:latest`.
 
 ## ⚙️ Configuración Inicial
 
@@ -56,37 +58,62 @@ git branch -M main
 git push -u origin main
 ```
 
-### 2. Configurar Secrets en GitHub
+### 2. Configurar Self-Hosted Runner
 
-Ve a: **Settings → Secrets and variables → Actions → New repository secret**
+Instala el runner en tu cluster de Kubernetes:
 
-Agrega:
-
-**`KUBE_CONFIG`** - Tu kubeconfig en base64:
 ```bash
-# Generar el secret (en tu máquina con acceso al cluster)
-cat ~/.kube/config | base64 -w 0
-# Copia el output y pégalo como secret
+# Crear directorio para el runner
+mkdir ~/actions-runner && cd ~/actions-runner
+
+# Descargar el runner (versión para Linux x64)
+curl -o actions-runner-linux-x64-2.321.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz
+tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz
+
+# Configurar (obtén el token desde: Settings → Actions → Runners → New self-hosted runner)
+./config.sh --url https://github.com/TU_USUARIO/portfoliok8s --token TU_TOKEN
+
+# Instalar como servicio
+sudo ./svc.sh install
+sudo ./svc.sh start
 ```
 
-### 3. Actualizar imagen en el YAML
+### 3. Instalar Podman en el runner
 
-Edita `apps/Portfolio/k8s/00-portfolio.yaml` línea 28:
+```bash
+sudo apt update
+sudo apt install -y podman
+
+# Configurar registries
+sudo tee /etc/containers/registries.conf > /dev/null <<'EOF'
+unqualified-search-registries = ["docker.io"]
+
+[[registry]]
+prefix = "docker.io"
+location = "docker.io"
+
+[[registry]]
+prefix = "ghcr.io"
+location = "ghcr.io"
+EOF
+```
+
+### 4. Actualizar imagen en el YAML
+
+Edita `apps/Portfolio/k8s/00-portfolio.yaml`:
 ```yaml
-image: ghcr.io/TU_USUARIO/portfolio:latest
+image: ghcr.io/tu_usuario/portfolio:latest  # minúsculas obligatorias
 ```
 
-Reemplaza `TU_USUARIO` con tu usuario de GitHub.
-
-### 4. Hacer push y ver el deploy
+### 5. Push y deploy automático
 
 ```bash
-git add apps/Portfolio/k8s/00-portfolio.yaml
-git commit -m "Update image registry"
+git add .
+git commit -m "Configure self-hosted runner"
 git push
 ```
 
-Ve a **Actions** en GitHub para ver el progreso.
+El workflow se ejecutará automáticamente en tu runner.
 
 ## 🔧 Desarrollo Local
 
@@ -106,18 +133,24 @@ npm run build
 npm run preview
 ```
 
-## 🐳 Build Docker Local
+## 🐳 Build Local
 
 ```bash
 cd apps/Portfolio
 
-# Build
-docker build -t portfolio:local .
+# Build con Podman
+podman build -t portfolio:local .
 
 # Run
-docker run -p 8080:80 portfolio:local
+podman run -p 8080:80 portfolio:local
 
 # Abrir http://localhost:8080
+```
+
+O con Docker si lo tienes instalado:
+```bash
+docker build -t portfolio:local .
+docker run -p 8080:80 portfolio:local
 ```
 
 ## 📝 Deploy Manual
@@ -125,14 +158,15 @@ docker run -p 8080:80 portfolio:local
 Si necesitas deployar manualmente:
 
 ```bash
-# Build y push
+# Build y push con Podman
 cd apps/Portfolio
-docker build -t ghcr.io/TU_USUARIO/portfolio:v1.0.0 .
-docker push ghcr.io/TU_USUARIO/portfolio:v1.0.0
+podman build -t ghcr.io/tu_usuario/portfolio:v1.0.0 .
+echo "TU_TOKEN" | podman login ghcr.io -u tu_usuario --password-stdin
+podman push ghcr.io/tu_usuario/portfolio:v1.0.0
 
 # Deploy
 kubectl apply -f k8s/00-portfolio.yaml
-kubectl set image deployment/portfolio nginx=ghcr.io/TU_USUARIO/portfolio:v1.0.0 -n portfolio
+kubectl set image deployment/portfolio nginx=ghcr.io/tu_usuario/portfolio:v1.0.0 -n portfolio
 
 # Verificar
 kubectl rollout status deployment/portfolio -n portfolio
@@ -161,12 +195,22 @@ kubectl rollout undo deployment/portfolio --to-revision=2 -n portfolio
 
 ## 🛠️ Troubleshooting
 
-### Pipeline falla en kubectl
+### Runner no aparece como activo
 
-Verifica que el secret `KUBE_CONFIG` esté bien configurado:
 ```bash
-# Regenerar
-cat ~/.kube/config | base64 -w 0
+# Verificar estado del servicio
+sudo systemctl status actions.runner.*.service
+
+# Ver logs
+journalctl -u actions.runner.*.service -f
+```
+
+### Pipeline falla en build
+
+Verifica que Podman esté instalado en el runner:
+```bash
+podman version
+podman info
 ```
 
 ### Pods no arrancan
@@ -180,20 +224,24 @@ kubectl logs -n portfolio <pod-name>
 
 Verifica permisos del paquete en GitHub:
 - Ve a tu perfil → Packages → portfolio
-- Settings → Change visibility → Public (o configura imagePullSecrets)
+- Settings → Change visibility → Public
 
 ## 📦 Tecnologías
 
-- **Frontend**: Astro + Tailwind CSS
-- **Container**: Docker multi-stage (Node + Nginx)
-- **Orchestration**: Kubernetes
-- **CI/CD**: GitHub Actions
+- **Frontend**: Astro v4.0.0 + Tailwind CSS
+- **Container Runtime (K8s)**: containerd
+- **Build Tool**: Podman v4.9.3 (rootless)
+- **Container Image**: Multi-stage (Node 20 Alpine + Nginx Alpine)
+- **Orchestration**: Kubernetes v1.30.14
+- **CI/CD**: GitHub Actions (self-hosted runner)
 - **Registry**: GitHub Container Registry (ghcr.io)
-- **Monitoring**: Grafana + Loki
+- **Versioning**: SHA-based image tagging
+- **Monitoring**: Grafana + Loki + Prometheus
 - **Ingress**: Nginx Ingress Controller
-- **Load Balancer**: MetalLB
-- **Network**: Calico
+- **Load Balancer**: MetalLB v0.14.9
+- **Network**: Calico v3.31.1
 - **Certs**: cert-manager
+- **Access**: Tailscale Funnel
 
 ## 📄 Licencia
 
