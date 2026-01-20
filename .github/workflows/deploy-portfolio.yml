@@ -25,6 +25,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Prepare Podman runtime directory
+        run: mkdir -p /tmp/xdg-runtime && chmod 700 /tmp/xdg-runtime
+
+      - name: Set XDG_RUNTIME_DIR environment variable
+        run: echo "XDG_RUNTIME_DIR=/tmp/xdg-runtime" >> $GITHUB_ENV
+
       - name: Login to GitHub Container Registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
