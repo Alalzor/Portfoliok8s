@@ -7,9 +7,9 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        primary: '#2563eb',
-        secondary: '#1e40af',
-        accent: '#3b82f6',
+        primary: '#f97316',      // Naranja vibrante
+        secondary: '#ea580c',    // Naranja oscuro
+        accent: '#fb923c',       // Naranja claro
       },
     },
   },
