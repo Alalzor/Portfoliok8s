@@ -133,3 +133,4 @@ MIT License - Feel free to use this template for your own portfolio!
 - GitHub: [@Alalzor](https://github.com/Alalzor)
 - LinkedIn: [alex-almagro](https://www.linkedin.com/in/alex-almagro-dislex4a)
 - Email: aalmtor@upvnet.upv.es
+# Rebuild at 01/20/2026 13:29:23
