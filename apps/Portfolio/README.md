@@ -1,4 +1,4 @@
-# DevOps Portfolio - Alejandro Almagro
+# DevOps Portfolio - Alalzor
 
 Professional portfolio for ASIR Technician specialized in DevOps and Systems Administration.
 
@@ -129,7 +129,7 @@ MIT License - Feel free to use this template for your own portfolio!
 
 ## 👤 Author
 
-**Alejandro Almagro Torregrosa**
+**Alalzor**
 - GitHub: [@Alalzor](https://github.com/Alalzor)
 - LinkedIn: [alex-almagro](https://www.linkedin.com/in/alex-almagro-dislex4a)
 - Email: aalmtor@upvnet.upv.es
