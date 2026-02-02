@@ -1,6 +1,15 @@
 # Portfolio K8s - Monorepo
 
-Portfolio personal con infraestructura Kubernetes completa.
+> **⚠️ NOTICE: The portfolio web application has been moved to a dedicated repository**
+> 
+> **New Repository**: [Alalzor.github.io](https://github.com/Alalzor/Alalzor.github.io)  
+> **Live Site**: [https://alalzor.github.io](https://alalzor.github.io)
+> 
+> This repository now contains only the Kubernetes infrastructure and monitoring configuration.
+
+---
+
+Kubernetes infrastructure configuration for home lab deployment.
 
 ## 📁 Estructura del Proyecto
 
